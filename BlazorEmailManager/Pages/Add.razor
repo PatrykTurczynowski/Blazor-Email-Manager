@@ -1,0 +1,69 @@
+﻿@using Models;
+@using Services;
+
+@page "/add"
+
+@inject DataService appData
+@inject NavigationManager UriHelper
+
+<h3>Add new Email</h3>
+<br />
+<br />
+
+<div layout="column">
+    <div class="col-sm-4">
+        <label>E-mail adress:</label>
+        <input type="text" @bind="@email.EmailAddress" class="form-control">
+    </div>
+    <div class="col-sm-4">
+        <label>First Name:</label>
+        <input type="text" @bind="@email.FirstName" class="form-control">
+    </div>
+    <div class="col-sm-4">
+        <label>Last Name:</label>
+        <input type="text" @bind="@email.LastName" class="form-control">
+    </div>
+    <div class="col-sm-4">
+        <label>Country:</label>
+        <input type="text" @bind="@email.Country" class="form-control">
+    </div>
+    <div class="col-sm-4">
+        <label>Organization:</label>
+        <input type="text" @bind="@email.Organization" class="form-control">
+    </div>
+    <div class="col-sm-4">
+        <label>Department:</label>
+        <input type="text" @bind="@email.Department" class="form-control">
+    </div>
+    <div class="col-sm-4">
+        <label>Position:</label>
+        <input type="text" @bind="@email.Position" class="form-control">
+    </div>
+    <div class="col-sm-4">
+        <label>PhoneNumber:</label>
+        <input type="text" @bind="@email.PhoneNumber" class="form-control">
+    </div>
+</div>
+
+<br>
+
+<button class="btn btn-success"
+        style="min-width: 100px; margin-bottom:20px;"
+        @onclick="OnAddEmail">
+    Add new e-mail
+</button>
+
+@code {
+    protected override async Task OnInitializedAsync()
+    {
+        email = new Email();
+    }
+
+    private Email email;
+
+    private void OnAddEmail()
+    {
+        appData.Emails.Add(email);
+        UriHelper.NavigateTo("emailList");
+    }
+}

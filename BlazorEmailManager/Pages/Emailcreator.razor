@@ -1,0 +1,70 @@
+﻿@using Models;
+@using Interfaces;
+@using Services;
+
+@page "/emailcreator"
+
+@inject ISendingService SendingService
+@inject DataService AppData
+
+<h3>Email Creator</h3>
+<br />
+<br />
+
+<div layout="column">
+    <div class="col-sm-4">
+        <label>Sender Name:</label>
+        <input type="text" @bind="@emailDraft.Sender.Name" class="form-control">
+    </div>
+    <div class="col-sm-4">
+        <label>Sender Email:</label>
+        <input type="text" @bind="@emailDraft.Sender.Email" class="form-control">
+    </div>
+    <div class="col-sm-4">
+        <label>Sender Password:</label>
+        <input type="password" @bind="@emailDraft.Sender.Password" class="form-control">
+    </div>
+    <div class="col-sm-4">
+        <label>Topic:</label>
+        <input type="text" @bind="@emailDraft.Topic" class="form-control">
+    </div>
+    <div class="col-sm-4">
+        <label>Message:</label>
+        <textarea type="text" @bind="@emailDraft.MessageText" class="form-control" rows="5"></textarea>
+    </div>
+</div>
+
+<br />
+
+<div style="margin-bottom: 20px;">
+    <button class="btn btn-success"
+            style="min-width: 100px; margin-right:10px"
+            @onclick="OnSendEmail">
+        Send
+    </button>
+    <button class="btn btn-dark"
+            style="min-width: 100px;"
+            @onclick="OnCancel">
+        Cancel
+    </button>
+</div>
+
+
+@code {
+    protected override async Task OnInitializedAsync()
+    {
+        emailDraft = new EmailDraft();
+    }
+
+    private EmailDraft emailDraft;
+
+    private void OnSendEmail()
+    {
+        SendingService.SendEmails(emailDraft, AppData.Emails.Select(x => x.EmailAddress).ToList());
+    }
+
+    private void OnCancel()
+    {
+
+    }
+}

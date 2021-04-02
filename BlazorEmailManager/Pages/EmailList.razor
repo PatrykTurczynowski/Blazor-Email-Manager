@@ -1,0 +1,125 @@
+﻿@using Models;
+@using Interfaces;
+@using Services;
+@using System.IO;
+
+@page "/emailList"
+
+@inject IReadWriteService ReadWriteService
+@inject DataService AppData
+@inject HttpClient Http
+@inject IJSRuntime JS
+@inject NavigationManager UriHelper
+
+
+<h3>Email List</h3>
+
+<label>Select a file:</label>
+<InputFile OnChange="@LoadFiles" />
+<br />
+<br />
+
+<button class="btn btn-primary"
+        style="min-width: 100px;"
+        @onclick="OnReadFile">
+    Read file
+</button>
+
+<button class="btn btn-success"
+        style="min-width: 100px;"
+        @onclick="OnSaveFileAsync">
+    Save file
+</button>
+
+<br />
+<br />
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>@nameof(Email.EmailAddress)</th>
+            <th>@nameof(Email.FirstName)</th>
+            <th>@nameof(Email.LastName)</th>
+            <th>@nameof(Email.Country)</th>
+            <th>@nameof(Email.Organization)</th>
+            <th>@nameof(Email.Department)</th>
+            <th>@nameof(Email.Position)</th>
+            <th>@nameof(Email.PhoneNumber)</th>
+            <th>@nameof(Email.Created)</th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (AppData.Emails != null)
+        {
+            @foreach (var item in AppData.Emails)
+            {
+                <tr>
+                    <td>@item.EmailAddress</td>
+                    <td>@item.FirstName</td>
+                    <td>@item.LastName</td>
+                    <td>@item.Country</td>
+                    <td>@item.Organization</td>
+                    <td>@item.Department</td>
+                    <td>@item.Position</td>
+                    <td>@item.PhoneNumber</td>
+                    <td>@item.Created</td>
+                    <td>
+                        <button class="btn btn-warning"
+                                style="min-width: 100px;"
+                                @onclick="()=>OnEditItem(item)">
+                            Edit
+                        </button>
+                    </td>
+                    <td>
+                        <button class="btn btn-danger"
+                                style="min-width: 100px;"
+                                @onclick="()=>OnRemoveItem(item)">
+                            Remove
+                        </button>
+                    </td>
+                </tr>
+            }
+        }
+    </tbody>
+</table>
+
+@code {
+    protected override async Task OnInitializedAsync()
+    {
+        
+    }
+
+    private string name = "Read email list";
+    private string file;
+
+    async Task LoadFiles(InputFileChangeEventArgs e)
+    {
+        using (var reader = new StreamReader(e.File.OpenReadStream()))
+        {
+            file = await reader.ReadToEndAsync();
+        }
+    }
+
+    private void OnReadFile()
+    {
+        AppData.Emails = ReadWriteService.ReadFile(file).ToList();
+    }
+
+    private async Task OnSaveFileAsync()
+    {
+        await ReadWriteService.SaveFileAsync(AppData.Emails);
+    }
+
+    private void OnEditItem(Email email)
+    {
+        UriHelper.NavigateTo($"edit/{email.EmailAddress}");
+    }
+
+    private void OnRemoveItem(Email email)
+    {
+        if (AppData.Emails.Contains(email))
+        {
+            AppData.Emails.Remove(email);
+        }
+    }
+}

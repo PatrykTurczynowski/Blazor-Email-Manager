@@ -1,0 +1,95 @@
+﻿@using Models;
+@using Services;
+
+@page "/edit/{EmailAddress}"
+
+@inject DataService AppData
+@inject NavigationManager UriHelper
+
+<h3>Edit Email</h3>
+<br />
+<br />
+
+<div layout="column">
+    <div class="col-sm-4">
+        <label>E-mail adress:</label>
+        <input type="text" @bind="@email.EmailAddress" class="form-control">
+    </div>
+    <div class="col-sm-4">
+        <label>First Name:</label>
+        <input type="text" @bind="@email.FirstName" class="form-control">
+    </div>
+    <div class="col-sm-4">
+        <label>Last Name:</label>
+        <input type="text" @bind="@email.LastName" class="form-control">
+    </div>
+    <div class="col-sm-4">
+        <label>Country:</label>
+        <input type="text" @bind="@email.Country" class="form-control">
+    </div>
+    <div class="col-sm-4">
+        <label>Organization:</label>
+        <input type="text" @bind="@email.Organization" class="form-control">
+    </div>
+    <div class="col-sm-4">
+        <label>Department:</label>
+        <input type="text" @bind="@email.Department" class="form-control">
+    </div>
+    <div class="col-sm-4">
+        <label>Position:</label>
+        <input type="text" @bind="@email.Position" class="form-control">
+    </div>
+    <div class="col-sm-4">
+        <label>PhoneNumber:</label>
+        <input type="text" @bind="@email.PhoneNumber" class="form-control">
+    </div>
+</div>
+
+<br />
+
+<div style="margin-bottom: 20px;">
+    <button class="btn btn-success"
+            style="min-width: 100px; margin-right:10px"
+            @onclick="OnSave">
+        Save
+    </button>
+    <button class="btn btn-dark"
+            style="min-width: 100px;"
+            @onclick="OnCancel">
+        Cancel
+    </button>
+</div>
+
+@code {
+    protected override async Task OnInitializedAsync()
+    {
+        email = AppData.Emails.FirstOrDefault(x => x.EmailAddress == EmailAddress);
+        index = AppData.Emails.IndexOf(email);
+        originalEmail = new Email(email);
+    }
+
+    protected override void OnParametersSet()
+    {
+        //the param will be set now
+    }
+
+    [Parameter]
+    public string EmailAddress { get; set; }
+
+    private Email email;
+    private Email originalEmail;
+
+    private int index;
+
+    private void OnSave()
+    {
+        UriHelper.NavigateTo("emailList");
+    }
+
+    private void OnCancel()
+    {
+        AppData.Emails.RemoveAt(index);
+        AppData.Emails.Insert(index, originalEmail);
+        UriHelper.NavigateTo("emailList");
+    }
+}
