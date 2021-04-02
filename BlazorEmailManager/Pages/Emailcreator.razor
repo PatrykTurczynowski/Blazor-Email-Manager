@@ -6,6 +6,7 @@
 
 @inject ISendingService SendingService
 @inject DataService AppData
+@inject NavigationManager UriHelper
 
 <h3>Email Creator</h3>
 <br />
@@ -42,11 +43,6 @@
             @onclick="OnSendEmail">
         Send
     </button>
-    <button class="btn btn-dark"
-            style="min-width: 100px;"
-            @onclick="OnCancel">
-        Cancel
-    </button>
 </div>
 
 
@@ -61,10 +57,5 @@
     private void OnSendEmail()
     {
         SendingService.SendEmails(emailDraft, AppData.Emails.Select(x => x.EmailAddress).ToList());
-    }
-
-    private void OnCancel()
-    {
-
     }
 }
