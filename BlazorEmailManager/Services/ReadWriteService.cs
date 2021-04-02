@@ -5,7 +5,6 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace BlazorEmailManager.Services
@@ -42,7 +41,7 @@ namespace BlazorEmailManager.Services
         {
             using (var stringWriter = new StringWriter())
             {
-                stringWriter.WriteLine(
+                var headers = string.Join(",",
                     nameof(Email.EmailAddress),
                     nameof(Email.FirstName),
                     nameof(Email.LastName),
@@ -51,6 +50,8 @@ namespace BlazorEmailManager.Services
                     nameof(Email.Department),
                     nameof(Email.Position),
                     nameof(Email.PhoneNumber));
+
+                stringWriter.WriteLine(headers);
 
                 foreach (var email in emails)
                 {
