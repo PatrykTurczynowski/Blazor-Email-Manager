@@ -1,4 +1,16 @@
 # Blazor-Email-Manager
+
+#### Application contains the following functionalities:
+- loading e-mail list from csv file
+- saving e-mail list to a csv file
+- adding a new record to the e-mail list
+- deleting selected e-mail from list
+- editing selected e-mail from list
+
+- creating an e-mail template
+- sending a group email to all records from the list
+<br>
+
 ### Email list
 ![emailmanager](https://user-images.githubusercontent.com/25999244/113449423-177d5c80-93fe-11eb-8875-bd69da7eaf32.PNG)
 
