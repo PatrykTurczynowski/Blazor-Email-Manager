@@ -1,15 +1,15 @@
-# Blazor-Email-Manager
+# Blazor Email Manager 📧
 
-#### Application contains the following functionalities:
-- loading e-mail list from csv file
-- saving e-mail list to a csv file
-- adding a new record to the e-mail list
-- deleting selected e-mail from list
-- editing selected e-mail from list
+A Blazor WebAssembly application for managing contact lists and sending bulk emails.  
+Originally created as a university project, now refactored and improved with modern practices.
 
-- creating an e-mail template
-- sending a group email to all records from the list
-<br>
+## Features
+- 📂 Import and export email lists from/to CSV files
+- ➕ Add new contacts manually
+- ✏️ Edit existing records inline
+- 🗑️ Delete selected contacts
+- ✉️ Create and save email templates
+- 📩 Send group emails to all contacts in the list
 
 ### Email list
 ![emailmanager](https://user-images.githubusercontent.com/25999244/113449423-177d5c80-93fe-11eb-8875-bd69da7eaf32.PNG)
